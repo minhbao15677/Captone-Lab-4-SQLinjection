@@ -34,8 +34,8 @@ $WP theme install astra --activate || true
 echo "[IPMAC] Installing Elementor..."
 $WP plugin install elementor --activate || true
 
-echo "[IPMAC] Installing Contact Form 7..."
-$WP plugin install contact-form-7 --activate || true
+echo "[IPMAC] Installing Contact Form 7 (v5.9.8 for WP 6.4 compat)..."
+$WP plugin install contact-form-7 --version=5.9.8 --activate || true
 
 echo "[IPMAC] Installing WooCommerce for product catalog..."
 $WP plugin install woocommerce --activate || true
