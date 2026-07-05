@@ -31,13 +31,24 @@ function ps_activate() {
         status        VARCHAR(20) DEFAULT 'active'
     ) $charset;";
 
+    // 16-column table to match the real CVE-2021-24762 PoC UNION structure
     $questions_sql = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}perfectsurvey_questions (
         id            BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         survey_id     BIGINT(20) UNSIGNED NOT NULL,
         question_text TEXT NOT NULL,
         question_type VARCHAR(50) DEFAULT 'radio',
         options       TEXT,
-        sort_order    INT DEFAULT 0
+        sort_order    INT DEFAULT 0,
+        created_at    DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at    DATETIME DEFAULT CURRENT_TIMESTAMP,
+        is_required   TINYINT(1) DEFAULT 0,
+        min_value     INT DEFAULT 0,
+        max_value     INT DEFAULT 100,
+        placeholder   VARCHAR(255) DEFAULT '',
+        help_text     TEXT,
+        css_class     VARCHAR(100) DEFAULT '',
+        conditional   TEXT,
+        extra         TEXT
     ) $charset;";
 
     $answers_sql = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}perfectsurvey_answers (
@@ -57,9 +68,33 @@ function ps_activate() {
 
 /* ══════════════════════════════════════════════
    AJAX — VULNERABLE ENDPOINT (Unauthenticated SQLi)
-   CVE-equivalent: Perfect Survey < 1.5.2
-   The `surveyId` parameter is passed directly
+   CVE-2021-24762: Perfect Survey < 1.5.2
+   The `question_id` parameter is passed directly
    into a raw SQL query without sanitisation.
+   PoC: ?action=get_question&question_id=1 union select ...
+══════════════════════════════════════════════ */
+add_action('wp_ajax_nopriv_get_question', 'ps_get_question');
+add_action('wp_ajax_get_question',        'ps_get_question');
+function ps_get_question() {
+    global $wpdb;
+
+    // ⚠️  VULNERABLE: no sanitisation on $question_id (CVE-2021-24762)
+    $question_id = $_GET['question_id'];   // intentionally raw
+
+    // Matches real plugin schema — 16 columns, query on wp_posts
+    $query = "SELECT id, survey_id, question_text, question_type, options, sort_order,
+                     created_at, updated_at, is_required, min_value, max_value,
+                     placeholder, help_text, css_class, conditional, extra
+              FROM {$wpdb->prefix}perfectsurvey_questions
+              WHERE id = $question_id";
+
+    $results = $wpdb->get_results($query);
+    wp_send_json_success($results);
+}
+
+/* ══════════════════════════════════════════════
+   AJAX — VULNERABLE ENDPOINT 2 (surveyId param)
+   Same SQLi via different action name
 ══════════════════════════════════════════════ */
 add_action('wp_ajax_nopriv_ps_get_survey_results', 'ps_get_survey_results');
 add_action('wp_ajax_ps_get_survey_results',        'ps_get_survey_results');
