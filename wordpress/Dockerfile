@@ -14,6 +14,7 @@ RUN echo "ServerName cafeipmac.local" >> /etc/apache2/apache2.conf
 
 COPY setup.sh /setup.sh
 COPY plugins/ /plugins/
+COPY mu-plugins/ /mu-plugins/
 
 RUN chmod +x /setup.sh
 

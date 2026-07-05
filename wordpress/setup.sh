@@ -46,6 +46,11 @@ cp -r /plugins/perfect-survey /var/www/html/wp-content/plugins/
 chown -R www-data:www-data /var/www/html/wp-content/plugins/perfect-survey
 $WP plugin activate perfect-survey || true
 
+echo "[IPMAC] Installing must-use plugins (fonts + styling)..."
+mkdir -p /var/www/html/wp-content/mu-plugins
+cp /mu-plugins/ipmac-fonts.php /var/www/html/wp-content/mu-plugins/
+chown www-data:www-data /var/www/html/wp-content/mu-plugins/ipmac-fonts.php
+
 echo "[IPMAC] Creating pages..."
 # Delete default page
 $WP post delete 1 --force 2>/dev/null || true
