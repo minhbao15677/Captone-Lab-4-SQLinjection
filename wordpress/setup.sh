@@ -119,13 +119,29 @@ MENU_ID=$($WP post create \
     --post_content="<!-- wp:heading {\"textAlign\":\"center\"} --><h2 class=\"wp-block-heading has-text-align-center\">☕ Thực Đơn IPMAC Café</h2><!-- /wp:heading --><!-- wp:paragraph {\"align\":\"center\"} --><p class=\"has-text-align-center\">Tất cả nguyên liệu được tuyển chọn kỹ lưỡng từ các vùng sản xuất nổi tiếng</p><!-- /wp:paragraph --><!-- wp:shortcode -->[product_category]<!-- /wp:shortcode -->" \
     --porcelain)
 
+# Create CF7 booking form first so we have its ID
+CF7_ID=$($WP post create \
+    --post_type="wpcf7_contact_form" \
+    --post_status="publish" \
+    --post_title="Dat Ban Form" \
+    --porcelain 2>/dev/null || echo "")
+
+# Insert CF7 form fields via meta
+if [ -n "$CF7_ID" ]; then
+    $WP post meta update "$CF7_ID" "_form" '<label>Họ và tên<br />[text* your-name placeholder "Nguyễn Văn A"]</label><label>Email<br />[email* your-email placeholder "email@example.com"]</label><label>Số điện thoại<br />[tel* phone placeholder "0912345678"]</label><label>Ngày đặt bàn<br />[date* booking-date]</label><label>Số người<br />[number* guests min:1 max:20 placeholder "2"]</label><label>Ghi chú<br />[textarea notes placeholder "Yêu cầu đặc biệt..."]</label>[submit "Đặt Bàn Ngay"]' 2>/dev/null || true
+    $WP post meta update "$CF7_ID" "_mail" 'a:9:{s:2:"to";s:25:"admin@cafeipmac.local";s:4:"from";s:44:"IPMAC Café <wordpress@cafeipmac.local>";s:7:"subject";s:30:"[IPMAC Café] Đặt bàn mới";s:4:"body";s:100:"Họ tên: [your-name]\nEmail: [your-email]\nĐiện thoại: [phone]\nNgày: [booking-date]\nSố người: [guests]\nGhi chú: [notes]";s:18:"additional-headers";s:27:"Reply-To: [your-email]";s:11:"attachments";s:0:"";s:4:"use_html";s:0:"";s:13:"exclude_blank";s:0:"";s:16:"message-id-field";s:0:"";}' 2>/dev/null || true
+    BOOKING_SHORTCODE="[contact-form-7 id=\"$CF7_ID\" title=\"Dat Ban Form\"]"
+else
+    BOOKING_SHORTCODE="[contact-form-7 title=\"Dat Ban Form\"]"
+fi
+
 # Booking page
 BOOKING_ID=$($WP post create \
     --post_title="Đặt Bàn" \
     --post_status="publish" \
     --post_type="page" \
     --post_name="dat-ban" \
-    --post_content="<!-- wp:heading {\"textAlign\":\"center\"} --><h2 class=\"wp-block-heading has-text-align-center\">📅 Đặt Bàn Trực Tuyến</h2><!-- /wp:heading --><!-- wp:paragraph --><p>Hãy điền thông tin để chúng tôi giữ bàn cho bạn. Xác nhận sẽ được gửi qua email trong vòng 30 phút.</p><!-- /wp:paragraph --><!-- wp:shortcode -->[contact-form-7 id=\"\" title=\"Dat Ban Form\"]<!-- /wp:shortcode -->" \
+    --post_content="<!-- wp:heading {\"textAlign\":\"center\"} --><h2 class=\"wp-block-heading has-text-align-center\">📅 Đặt Bàn Trực Tuyến</h2><!-- /wp:heading --><!-- wp:paragraph --><p>Hãy điền thông tin để chúng tôi giữ bàn cho bạn. Xác nhận sẽ được gửi qua email trong vòng 30 phút.</p><!-- /wp:paragraph --><!-- wp:shortcode -->$BOOKING_SHORTCODE<!-- /wp:shortcode -->" \
     --porcelain)
 
 # About page
