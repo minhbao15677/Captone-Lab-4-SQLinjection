@@ -51,6 +51,11 @@ mkdir -p /var/www/html/wp-content/mu-plugins
 cp /mu-plugins/ipmac-fonts.php /var/www/html/wp-content/mu-plugins/
 chown www-data:www-data /var/www/html/wp-content/mu-plugins/ipmac-fonts.php
 
+echo "[IPMAC] Fixing wp-content permissions..."
+mkdir -p /var/www/html/wp-content/uploads/2026/07
+chown -R www-data:www-data /var/www/html/wp-content
+chmod -R 755 /var/www/html/wp-content/uploads
+
 echo "[IPMAC] Creating pages..."
 # Delete default page
 $WP post delete 1 --force 2>/dev/null || true
