@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IPMAC Café — Nơi Cà Phê Gặp Gỡ Công Nghệ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --espresso: #2C1810;
+      --caramel: #C8860A;
+      --cream: #F5ECD7;
+      --latte: #D4A76A;
+      --dark: #1A0F08;
+      --text: #3D2314;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: var(--cream);
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(200,134,10,.18) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(212,167,106,.12) 0%, transparent 55%),
+        linear-gradient(160deg, #1A0F08 0%, #2C1810 50%, #1A0F08 100%);
+      padding: 2rem;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='1' fill='rgba(200,134,10,0.08)'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .logo-badge {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, var(--caramel), var(--espresso));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--cream);
+      letter-spacing: 2px;
+      box-shadow: 0 0 40px rgba(200,134,10,.45), 0 8px 32px rgba(0,0,0,.6);
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--cream);
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 span {
+      color: var(--caramel);
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      font-weight: 300;
+      color: var(--latte);
+      margin: 1.2rem 0 2.8rem;
+      max-width: 500px;
+      line-height: 1.7;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-group {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      padding: .85rem 2rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all .3s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--caramel);
+      color: var(--dark);
+      box-shadow: 0 4px 20px rgba(200,134,10,.4);
+    }
+
+    .btn-primary:hover {
+      background: #e09b18;
+      box-shadow: 0 6px 28px rgba(200,134,10,.6);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      border: 1.5px solid rgba(200,134,10,.5);
+      color: var(--latte);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--caramel);
+      color: var(--caramel);
+      background: rgba(200,134,10,.08);
+    }
+
+    /* ── SCROLL HINT ── */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .4rem;
+      color: rgba(212,167,106,.4);
+      font-size: .75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ── SECTION BASE ── */
+    section {
+      padding: 6rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: .75rem;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--caramel);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--caramel), transparent);
+      margin-bottom: 2rem;
+      border-radius: 2px;
+    }
+
+    /* ── STORY ── */
+    .story-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .story-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+
+    .story-text p {
+      color: rgba(245,236,215,.75);
+      line-height: 1.9;
+      font-size: .97rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .coffee-art {
+      width: 100%;
+      aspect-ratio: 1;
+      max-width: 400px;
+      margin: 0 auto;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 38%, #5C3A1E 0%, #2C1810 45%, #1A0F08 100%);
+      box-shadow: inset 0 0 60px rgba(0,0,0,.5), 0 0 80px rgba(200,134,10,.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .coffee-art::after {
+      content: '';
+      position: absolute;
+      top: 18%;
+      left: 25%;
+      width: 50%;
+      height: 12%;
+      border-radius: 50%;
+      background: rgba(200,134,10,.12);
+      transform: rotate(-20deg);
+    }
+
+    /* ── MENU ── */
+    .menu-section { background: rgba(44,24,16,.4); border-radius: 24px; padding: 4rem 3rem; }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .menu-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(200,134,10,.15);
+      border-radius: 16px;
+      padding: 1.8rem 1.5rem;
+      transition: all .3s ease;
+    }
+
+    .menu-card:hover {
+      background: rgba(200,134,10,.08);
+      border-color: rgba(200,134,10,.4);
+      transform: translateY(-4px);
+    }
+
+    .menu-icon { font-size: 2.2rem; margin-bottom: .8rem; }
+
+    .menu-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--cream);
+      margin-bottom: .4rem;
+    }
+
+    .menu-card p { font-size: .85rem; color: rgba(212,167,106,.7); line-height: 1.6; }
+
+    .menu-price {
+      display: inline-block;
+      margin-top: .8rem;
+      font-weight: 500;
+      color: var(--caramel);
+      font-size: .9rem;
+    }
+
+    /* ── FEATURES ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .feature-item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: .8rem;
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(200,134,10,.15);
+      border: 1px solid rgba(200,134,10,.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .feature-item h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--cream);
+    }
+
+    .feature-item p { font-size: .84rem; color: rgba(212,167,106,.65); line-height: 1.65; }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      background: linear-gradient(135deg, var(--espresso) 0%, #3D2010 100%);
+      border: 1px solid rgba(200,134,10,.25);
+      border-radius: 24px;
+      text-align: center;
+      padding: 5rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-banner::before {
+      content: '☕';
+      position: absolute;
+      font-size: 18rem;
+      opacity: .04;
+      top: -4rem;
+      right: -3rem;
+      pointer-events: none;
+    }
+
+    .cta-banner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--cream);
+      margin-bottom: 1rem;
+    }
+
+    .cta-banner p {
+      color: var(--latte);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
+
+    .hint-box {
+      display: inline-block;
+      background: rgba(0,0,0,.35);
+      border: 1px dashed rgba(200,134,10,.35);
+      border-radius: 8px;
+      padding: .6rem 1.4rem;
+      font-family: monospace;
+      font-size: .85rem;
+      color: var(--caramel);
+      margin-bottom: 2rem;
+      letter-spacing: .5px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(200,134,10,.12);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      color: rgba(212,167,106,.4);
+      font-size: .82rem;
+      letter-spacing: .5px;
+    }
+
+    footer a { color: rgba(200,134,10,.6); text-decoration: none; }
+    footer a:hover { color: var(--caramel); }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+<div class="hero">
+  <div class="logo-badge">IP</div>
+  <h1>IPMAC<br><span>Café</span></h1>
+  <p class="hero-sub">
+    Nơi hương cà phê đặc biệt gặp gỡ không gian làm việc sáng tạo.<br>
+    Thưởng thức — Khám phá — Kết nối.
+  </p>
+  <div class="cta-group">
+    <a href="http://cafeipmac.local" class="btn btn-primary">
+      ☕ Vào Trang Chính
+    </a>
+    <a href="#menu" class="btn btn-outline">
+      Xem Thực Đơn
+    </a>
+  </div>
+  <div class="scroll-hint">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <path d="M4 7l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    Khám phá thêm
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ STORY ═══════════════════════════════ -->
+<section>
+  <div class="story-wrap">
+    <div class="story-text">
+      <div class="section-label">Câu chuyện của chúng tôi</div>
+      <h2 class="section-title">Mỗi tách cà phê là một<br><span style="color:var(--caramel)">hành trình</span></h2>
+      <div class="divider"></div>
+      <p>IPMAC Café được thành lập với sứ mệnh mang đến những tách cà phê đặc sản chất lượng cao kết hợp không gian làm việc hiện đại và ấm cúng.</p>
+      <p>Chúng tôi tuyển chọn hạt cà phê từ các vùng trồng nổi tiếng: Đà Lạt, Buôn Ma Thuột, Cầu Đất — mỗi hạt được rang thủ công để giữ trọn hương vị đặc trưng.</p>
+      <p>Không gian thoáng mát với wifi tốc độ cao, ổ cắm điện mỗi bàn, và đội ngũ barista nhiệt tình sẵn sàng phục vụ bạn.</p>
+    </div>
+    <div class="coffee-art">☕</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ MENU ═══════════════════════════════ -->
+<section id="menu">
+  <div class="menu-section">
+    <div class="section-label">Thực đơn</div>
+    <h2 class="section-title">Thức uống đặc biệt</h2>
+    <div class="divider"></div>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="menu-icon">☕</div>
+        <h3>Espresso IPMAC</h3>
+        <p>Espresso đặc biệt từ blend độc quyền, crema vàng óng, hương thơm nồng nàn.</p>
+        <span class="menu-price">35.000 đ</span>
+      </div>
+      <div class="menu-card">
+        <div class="menu-icon">🥛</div>
+        <h3>Café Sữa Đá</h3>
+        <p>Cà phê robusta rang đậm, sữa đặc Ông Thọ, đá viên mát lạnh.</p>
+        <span class="menu-price">29.000 đ</span>
+      </div>
+      <div class="menu-card">
+        <div class="menu-icon">🍵</div>
+        <h3>Matcha Latte</h3>
+        <p>Matcha Uji cao cấp, steamed milk, garnish bằng bột matcha hảo hạng.</p>
+        <span class="menu-price">55.000 đ</span>
+      </div>
+      <div class="menu-card">
+        <div class="menu-icon">🧋</div>
+        <h3>Brown Sugar Boba</h3>
+        <p>Trà sữa đường nâu, topping trân châu đen dẻo dai, sốt caramel.</p>
+        <span class="menu-price">59.000 đ</span>
+      </div>
+      <div class="menu-card">
+        <div class="menu-icon">🍫</div>
+        <h3>Mocha Frappe</h3>
+        <p>Blend cà phê và chocolate Bỉ đắng ngọt, whipped cream phủ đỉnh.</p>
+        <span class="menu-price">65.000 đ</span>
+      </div>
+      <div class="menu-card">
+        <div class="menu-icon">🍋</div>
+        <h3>Citrus Cold Brew</h3>
+        <p>Cold brew ủ 24 giờ, chanh Eureka, soda, một chút gừng tươi.</p>
+        <span class="menu-price">49.000 đ</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ FEATURES ═══════════════════════════════ -->
+<section>
+  <div class="section-label">Tại sao chọn chúng tôi</div>
+  <h2 class="section-title">Trải nghiệm đặc biệt tại<br>IPMAC Café</h2>
+  <div class="divider"></div>
+  <div class="features-grid">
+    <div class="feature-item">
+      <div class="feature-icon">📶</div>
+      <h4>WiFi Siêu Tốc</h4>
+      <p>Đường truyền 1Gbps đối xứng, mỗi bàn có riêng SSID để đảm bảo tốc độ.</p>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🔌</div>
+      <h4>Ổ Cắm Mọi Bàn</h4>
+      <p>USB-A, USB-C, và ổ cắm điện 220V tại mỗi vị trí ngồi.</p>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🌿</div>
+      <h4>Không Gian Xanh</h4>
+      <p>Hơn 50 chậu cây nội thất, không khí trong lành, giảm stress hiệu quả.</p>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🎵</div>
+      <h4>Âm Nhạc Lo-Fi</h4>
+      <p>Playlist lo-fi được tuyển chọn thủ công, âm lượng vừa phải để tập trung.</p>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🏆</div>
+      <h4>Barista Chứng Nhận</h4>
+      <p>Đội ngũ barista được cấp chứng chỉ SCA, luôn đảm bảo chất lượng đồng đều.</p>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">📦</div>
+      <h4>Đặt Hàng Online</h4>
+      <p>Order qua website, nhận ưu đãi thành viên và tích điểm thưởng mỗi giao dịch.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ CTA ═══════════════════════════════ -->
+<section>
+  <div class="cta-banner">
+    <h2>Sẵn sàng khám phá?</h2>
+    <p>Truy cập trang web chính thức của IPMAC Café để đặt bàn, xem thực đơn đầy đủ và tham gia chương trình thành viên.</p>
+    <div class="hint-box">💡 Thêm vào hosts: <strong>&lt;IP&gt; cafeipmac.local</strong></div><br>
+    <a href="http://cafeipmac.local" class="btn btn-primary" style="font-size:1.05rem; padding:1rem 2.5rem;">
+      ☕ Truy cập cafeipmac.local
+    </a>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+<footer>
+  <p>© 2024 IPMAC Café &nbsp;·&nbsp; 123 Đường Nguyễn Huệ, Quận 1, TP.HCM &nbsp;·&nbsp; <a href="tel:+842812345678">+84 28 1234 5678</a></p>
+  <p style="margin-top:.5rem;">Mở cửa: Thứ 2 – Chủ Nhật &nbsp;|&nbsp; 07:00 – 22:00</p>
+</footer>
+
+</body>
+</html>

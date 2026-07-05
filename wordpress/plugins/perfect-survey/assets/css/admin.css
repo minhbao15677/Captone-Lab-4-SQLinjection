@@ -1,0 +1,9 @@
+.ps-version {
+    font-size: .7em;
+    background: #fee;
+    color: #c00;
+    padding: 2px 8px;
+    border-radius: 4px;
+    vertical-align: middle;
+}
+.wrap h1 { color: #2C1810; }

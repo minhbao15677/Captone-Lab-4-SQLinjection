@@ -1,0 +1,89 @@
+#ps-survey-wrap {
+    max-width: 640px;
+    margin: 2rem auto;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.ps-title {
+    font-size: 1.5rem;
+    color: #2C1810;
+    margin-bottom: 1.5rem;
+    padding-bottom: .5rem;
+    border-bottom: 2px solid #C8860A;
+}
+
+.ps-spinner {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(200,134,10,.3);
+    border-top-color: #C8860A;
+    border-radius: 50%;
+    animation: ps-spin .7s linear infinite;
+    vertical-align: middle;
+    margin-right: .5rem;
+}
+
+@keyframes ps-spin { to { transform: rotate(360deg); } }
+
+.ps-question {
+    background: #f9f5ef;
+    border: 1px solid #e0d0b8;
+    border-radius: 10px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.ps-q-text {
+    font-weight: 600;
+    color: #3D2314;
+    margin-bottom: .8rem;
+    font-size: .97rem;
+}
+
+.ps-option {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .35rem 0;
+    cursor: pointer;
+    color: #5C3A1E;
+    font-size: .9rem;
+}
+
+.ps-option input { accent-color: #C8860A; }
+
+.ps-textarea {
+    width: 100%;
+    border: 1px solid #d0b898;
+    border-radius: 6px;
+    padding: .6rem .8rem;
+    font-size: .9rem;
+    color: #3D2314;
+    background: #fff;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.ps-textarea:focus {
+    outline: none;
+    border-color: #C8860A;
+    box-shadow: 0 0 0 3px rgba(200,134,10,.15);
+}
+
+.ps-submit-btn {
+    display: inline-block;
+    padding: .75rem 2rem;
+    background: #C8860A;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background .2s;
+}
+
+.ps-submit-btn:hover { background: #a06d08; }
+.ps-submit-btn:disabled { background: #ccc; cursor: not-allowed; }
