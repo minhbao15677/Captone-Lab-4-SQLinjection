@@ -1,16 +1,4 @@
 services:
-  landing:
-    build:
-      context: ./landing
-    container_name: lab04_landing
-    ports:
-      - "80:80"
-    networks:
-      lab04_net:
-        aliases:
-          - landing
-    restart: unless-stopped
-
   mysql:
     image: mysql:8.0
     container_name: lab04_mysql
@@ -56,9 +44,10 @@ services:
     depends_on:
       - wordpress
     ports:
-      - "8080:80"
+      - "80:80"
     volumes:
-      - ./nginx/cafeipmac.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./landing/index.html:/var/www/landing/index.html:ro
     networks:
       - lab04_net
     restart: unless-stopped
